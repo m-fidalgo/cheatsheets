@@ -40,3 +40,8 @@ Apagar branch remota
 ```
 git push --delete origin <nomeBranch>
 ```
+Excluir do controle remoto
+
+```
+git branch -dh <remote/branch>
+```
