@@ -1,6 +1,6 @@
 <h1 align="center">Releases</h1>
 
-Criar release
+Criar release (nomes no padrão x.x.x)
 
 ```
 git flow release start <release> <commit>
