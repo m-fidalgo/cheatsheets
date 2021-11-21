@@ -21,3 +21,34 @@ x = 0
 x === false  -> falso
 x == false   -> verdadeiro
 ```
+<h3>Interpolação e Concatenação de Strings</h3>
+<p>Concatenando:</p>
+
+```
+'parte 1' + variável + ' parte 2'
+```
+<p>Interpolação: Template Literals</p>
+
+```
+`parte 1 ${variável} parte 2`
+```
+<h3>Módulos</h3>
+<p>Exportar:</p>
+
+```
+export const a = 1;
+//ou
+const a = 1, b = 2;
+export {a, b};
+```
+<p>Importar:</p>
+
+```
+import {a, b} from 'arquivo';
+```
+<p>Default:</p>
+
+```
+export default a;
+import a from 'arquivo';
+```
