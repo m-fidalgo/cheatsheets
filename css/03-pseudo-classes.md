@@ -20,7 +20,7 @@
 <li><b>:visited</b> regras para links já visitados</li>
 <li><b>:active</b> regras para enquanto o link está sendo clicado (links ativos). Para funcionar corretamente deve vir depois de outros seletores relacionados a links</li>
 
-<h3>Elementos de Form</h3>
+<h3>Elementos de Formulários</h3>
 <li><b>:checked</b> quando o radio/checkbox/option está selecionado</li>
 <li><b>:default</b> elementos que são o default num grupo de elementos semelhantes</li>
 <li><b>:disabled</b> elementos desativados</li>
