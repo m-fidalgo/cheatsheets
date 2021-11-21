@@ -55,3 +55,14 @@ import {a, b} from 'arquivo';
 export default a;
 import a from 'arquivo';
 ```
+<h3>JSON</h3>
+<p>Objeto para JSON</p>
+
+```
+JSON.stringify(objeto)
+```
+<p>JSON para Objeto</p>
+
+```
+JSON.parse(string)
+```
