@@ -11,10 +11,10 @@ m.set(objA, valorA);
 
 valorA = m.get(objA);
 ```
-<h3>Funções</h3>
+<h3>Métodos e Propriedades</h3>
 <li><b>.clear()</b> reseta o map</li>
-<li><b>.size()</b> retorna seu tamanho</li>
+<li><b>.size</b> retorna seu tamanho</li>
 
 <h3>WeakMaps</p>
 <p>Como Maps, mas aceitam apenas objetos como chave</p>
-<p>Não têm os métodos clear e size</p>
+<p>Não têm clear e size</p>
