@@ -16,6 +16,9 @@ console.log('mensagem');
 <h3>== e ===</h3>
 <p>O operador === é chamado estritamente igual, retornando verdadeiro se os operandos forem iguais e do mesmo tipo</p>
 
+<h3>Operador Spread (...)</h3>
+<p>"Abre" o iterable, pegando todos os seus elementos</p>
+  
 ```
 x = 0
 x === false  -> falso
