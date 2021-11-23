@@ -10,3 +10,11 @@
 
 <h3>Operadores específicos de cada BD</h3>
 <li><b>MySQL</b>: REGEXP oU RLIKE como o LIKE, mas usa expressões regulares</li>
+
+<h3>Group By e Having</h3>
+<p>Agrupar informações, útil para contagens, quando funções de agregação são utilizadas</p>
+<p>O having pode ser usado em conjunto para definir condições de agrupamento</p>
+
+```
+SELECT ..... GROUP BY col;
+```
