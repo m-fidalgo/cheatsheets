@@ -35,3 +35,9 @@ setlocale(LC_ALL,"");
 <h3>Getch</h3>
 <p>Biblioteca <b>conio.h</b></p>
 <p>Função que pausa o terminal</p>
+
+<h3>Compilar</h3>
+
+```
+gcc -o main.exe -I. main.c
+```
