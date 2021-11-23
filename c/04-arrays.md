@@ -1,4 +1,4 @@
-<h1 align="center">Vetores e Matrizes</h1>
+<h1 align="center">Arrays</h1>
 
 <h3>Vetores</h3>
 
@@ -11,4 +11,10 @@ nome[índice] = valor;
 ```
 tipo nome[linhas][colunas];
 nome[indiceLinha][indiceColuna] = valor;
+```
+<h3>Alocação Dinâmica</h3>
+
+```
+vetor = malloc(sizeof(tipo) * tamanho);
+matriz = malloc(sizeof(tipo) * linhas * colunas);
 ```
