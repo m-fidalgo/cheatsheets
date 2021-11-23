@@ -19,3 +19,8 @@ tipo *nome;
 int a = 3;
 int *b = &a;
 ```
+<h3>Liberar memória</h3>
+
+```
+free(ponteiro);
+```
