@@ -15,7 +15,7 @@ col tipo NOME_CONSTRAINT,
 <h3>Restrições de Tabela</h3>
 
 ```
-CONSTRAINT nome NOME_CONSTRAINT(col1, ..., coln);
+CONSTRAINT nome NOME_CONSTRAINT(col1, ..., coln),
 ```
 <h3>Ids</h3>
 <li><b>MySQL</b>: a constraint AUTO_INCREMENT incrementa o valor a cada inserção</li>
