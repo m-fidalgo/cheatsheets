@@ -39,3 +39,21 @@ npx tsc --init --rootDir src --outDir build \ --esModuleInterop --resolveJsonMod
 }
 
 ```
+<h3>Nodemon</h3>
+<p>Reinicia o servidor automaticamente após mudanças</p>
+
+```
+npm i -D nodemon
+````
+<p>No package.json</p>
+
+```
+"scripts": {
+    "dev": "nodemon app.ts"
+ }
+```
+<h3>Rodar a aplicação</h3>
+
+```
+npm run dev
+```
