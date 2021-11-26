@@ -16,6 +16,10 @@ npm i -D @types/node
 <p>Criar tsconfig.json</p>
 
 ```
+npx tsc --init
+
+ou com opções
+
 npx tsc --init --rootDir src --outDir build \ --esModuleInterop --resolveJsonModule --lib es6 \ --module commonjs --allowJs true --noImplicitAny true
 ```
 <p>Arquivo gerado:</p>
