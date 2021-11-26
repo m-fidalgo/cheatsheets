@@ -18,8 +18,9 @@ npm i -D @types/express
 <p>app.js/ts</p>
 
 ```
+import express from 'express';
+
 const port = 3333;
-const express = require('express');
 const app = express();
 
 //converte os dados da requisição para json
