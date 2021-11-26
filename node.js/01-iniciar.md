@@ -35,8 +35,7 @@ npx tsc --init --rootDir src --outDir build \ --esModuleInterop --resolveJsonMod
     "strict": true /* Enable all strict type-checking options. */,
     "noImplicitAny": true /* Enable error reporting for expressions and declarations with an implied `any` type.. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
-  },
-  "files": ["\\", "\\"]
+  }
 }
 
 ```
