@@ -35,7 +35,7 @@ npm i -D ts-node-dev
 
 ```
 "scripts": {
-    "start": "npx ts-node-dev --respawn app.js"
+    "start": "npx ts-node-dev --respawn app.ts"
  }
 ```
 <h3>Rodar a aplicação</h3>
