@@ -43,6 +43,24 @@ npx tsc --init --rootDir src --outDir build \ --esModuleInterop --resolveJsonMod
 }
 
 ```
+<p>Instalar ts-node-dev</p>
+
+```
+npm i ts-node-dev -D
+```
+<p>No package.json: respawn faz a aplicação autualizar automaticamente após mudanças</p>
+
+```
+"scripts": {
+    "start": "npx ts-node-dev --respawn app.js"
+ }
+```
+<h3>Rodar a aplicação</h3>
+
+```
+npm run start
+```
+
 <h3>Nodemon</h3>
 <p>Reinicia o servidor automaticamente após mudanças</p>
 
@@ -53,14 +71,11 @@ npm i -D nodemon
 
 ```
 "scripts": {
-    "dev": "nodemon app.js"
-    
-    //com typescript
-    "dev": "nodemon --exec npx ts-node ./src/app.ts"
+    "start": "nodemon app.js"
  }
 ```
 <h3>Rodar a aplicação</h3>
 
 ```
-npm run dev
+npm run start
 ```
