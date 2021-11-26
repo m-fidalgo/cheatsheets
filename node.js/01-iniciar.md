@@ -10,7 +10,7 @@ npm init -y
 <p>Iniciar</p>
 
 ```
-npm i -D typescript ts-node
+npm i -D typescript
 npm i -D @types/node
 ```
 <p>Criar tsconfig.json</p>
@@ -46,7 +46,7 @@ npx tsc --init --rootDir src --outDir build \ --esModuleInterop --resolveJsonMod
 <p>Instalar ts-node-dev</p>
 
 ```
-npm i ts-node-dev -D
+npm i -D ts-node-dev
 ```
 <p>No package.json: respawn faz a aplicação autualizar automaticamente após mudanças</p>
 
