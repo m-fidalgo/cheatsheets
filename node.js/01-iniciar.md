@@ -49,7 +49,10 @@ npm i -D nodemon
 
 ```
 "scripts": {
-    "dev": "nodemon app.ts"
+    "dev": "nodemon app.js"
+    
+    //com typescript
+    "dev": "nodemon --exec npx ts-node ./src/app.ts"
  }
 ```
 <h3>Rodar a aplicação</h3>
