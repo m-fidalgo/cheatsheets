@@ -44,8 +44,26 @@ createConnection();
 ```
 import './database/connection';
 ```
+<h3>Models</h3>
+<p>Exemplo</p>
+
+```
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity('user')
+export default class User {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
+
+  @Column()
+  name: string;
+}
+
+```
+<p>Modelos para criação de tabelas</p>
+
 <h3>Comando - Criar Migration</h3>
 
 ```
-npm run typeorm migration:create -n <nome da tabela>
+npx typeorm migration:create -n migration
 ```
