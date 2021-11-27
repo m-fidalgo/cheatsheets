@@ -145,11 +145,69 @@ import { CreateItemDto } from './create-item.dto';
 export class UpdateItemDto extends PartialType(CreateItemDto) {}
 ```
 <p>Usa os mesmos atributos do insert, mas torna todos opcionais</p>
-  
+<p>Mudar main.ts: adicionar a validação</p>
+
+```
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+ const app = await NestFactory.create(AppModule);
+ app.useGlobalPipes(new ValidationPipe());
+ await app.listen(3000);
+}
+bootstrap();
+```
 <h3>Providers (Services)</h3>
 <p>Responsáveis pelo controle dos dados, são injetados como dependências nos controllers</p>
 <p>Recebem no construtor um repositório do TypeORM de acordo com a entidade que representam</p>
+<p>Exemplo</p>
 
 ```
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import MovieEntity from 'src/entities/movie.entity';
+import InsertMovieDto from 'src/dtos/movie/insert-movie.dto';
+import UpdateMovieDto from 'src/dtos/movie/update-movie.dto';
 
+@Injectable()
+export class MovieService {
+  constructor(
+    @InjectRepository(MovieEntity)
+    private readonly repository: Repository<MovieEntity>,
+  ) {}
+
+  getAll(): Promise<MovieEntity[]> {
+    return this.repository.find({ relations: ['review'] });
+  }
+
+  getOne(id: number): Promise<MovieEntity> {
+    return this.repository.findOneOrFail(id, { relations: ['review'] });
+  }
+
+  insert(movieDto: InsertMovieDto): Promise<MovieEntity> {
+    const movie = this.repository.create(movieDto);
+    return this.repository.save(movie);
+  }
+
+  async update(id: number, movieDto: UpdateMovieDto): Promise<MovieEntity> {
+    const movie = await this.repository.preload({
+      id: id,
+      ...movieDto,
+    });
+
+    if (!movie) throw new NotFoundException(`Movie ${id} not found`);
+
+    return this.repository.save(movie);
+  }
+
+  async delete(id: number) {
+    const movie = await this.repository.findOneOrFail(id, {
+      relations: ['review'],
+    });
+    return this.repository.remove(movie);
+  }
+}
 ```
