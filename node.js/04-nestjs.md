@@ -60,7 +60,7 @@ DB_SYNCHRONIZE=true
 })
 export class AppModule {}
 ```
-<h3>Adicionando TypeORM</p>
+<h3>Adicionando TypeORM</h3>
 
 ```
 npm install --save @nestjs/typeorm typeorm
@@ -100,4 +100,56 @@ export class DbConfigModule {}
 <p>Colocar DbConfigModule nos imports de app.module.ts</p>
 
 <h3>Entities</h3>
-<p>Como os models normais</p>
+<p>Definem como a entidade será representada no banco</p>
+<p>Exemplo:</p>
+
+```
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity('users')
+export default class UserEntity extends BaseEntity {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
+
+  @Column('varchar')
+  name: string;
+}
+
+```
+<p>Rodando a aplicação as entidades são criadas no banco automaticamente</p>
+
+<h3>DTOs</h3>
+<p>Data Transfer Objects</p>
+<p>Instalar class-validator</p>
+
+```
+npm install --save class-validator class-transformer
+```
+<p>Exemplo - insert</p>
+
+```
+import { IsString, IsNotEmpty } from 'class-validator';
+
+export default class InsertItemDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+}
+```
+<p>Exemplo - update</p>
+
+```
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateItemDto } from './create-item.dto';
+
+export class UpdateItemDto extends PartialType(CreateItemDto) {}
+```
+<p>Usa os mesmos atributos do insert, mas torna todos opcionais</p>
+  
+<h3>Providers (Services)</h3>
+<p>Responsáveis pelo controle dos dados, são injetados como dependências nos controllers</p>
+<p>Recebem no construtor um repositório do TypeORM de acordo com a entidade que representam</p>
+
+```
+
+```
