@@ -211,3 +211,37 @@ export class MovieService {
   }
 }
 ```
+<h3>Controllers</h3>
+<p>Lidam com requests e responses</p>
+
+<h3>Modules</h3>
+<p>Organiza providers e controllers de um mesmo tipo</p>
+<p>Exemplo</p>
+
+```
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import MovieController from 'src/controllers/movie.controller';
+import MovieEntity from 'src/entities/movie.entity';
+import { MovieService } from 'src/services/movie.service';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([MovieEntity])],
+  controllers: [MovieController],
+  providers: [MovieService],
+})
+export default class MovieModule {}
+```
+<p>Em app.module.ts</p>
+
+```
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { DbConfigModule } from './db.config.module';
+import MovieModule from './movie.module';
+
+@Module({
+  imports: [ConfigModule.forRoot(), DbConfigModule, MovieModule],
+})
+export class AppModule {}
+```
