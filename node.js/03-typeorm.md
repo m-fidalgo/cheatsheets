@@ -87,3 +87,46 @@ export default {
 };
 
 ```
+<h3>Controllers</h3>
+<p>Processam o request, retornando uma response</p>
+<p>Exemplo</p>
+
+```
+import { Request, Response } from "express";
+import { getRepository } from "typeorm";
+
+import User from "../models/User";
+import userView from "../views/users_view";
+
+export default {
+   async index(request: Request, response: Response) {
+    const usersRepository = getRepository(User);
+
+    const users = await usersRepository.find();
+
+    return response.json(userView.renderMany(users));
+  },
+  
+   async show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const usersRepository = getRepository(User);
+
+    const user = await usersRepository.findOneOrFail(id);
+
+    return response.json(userView.render(user));
+  },
+  
+  async create(request: Request, response: Response) {
+    const {name, age} = request.body;
+    const data = {name, age};
+    
+    const usersRepository= getRepository(User);
+    
+    const user = usersRepository.create(data);
+    
+    await usersRepository.save(user);
+
+    return response.status(201).json(user);
+}
+```
