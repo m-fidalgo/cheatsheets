@@ -20,5 +20,15 @@
     //colocar na label
   }
 </script>
+```
+<p>No app.js</p>
 
+```
+var io = require("socket.io")(3000);
+
+io.on("connection", (socket) => {
+  socket.on("client_hello", (data) => {
+    io.socket.emit("server_hello", data);
+  });
+});
 ```
