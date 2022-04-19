@@ -28,6 +28,21 @@ app.use(express.json());
 
 app.listen(port);
 ```
+<h3>Servidor sem express</h3>
+<p>Uso do módulo HTTP do node</p>
+
+```
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type','text/html');
+  res.write('<h1>Hello World</h1>');
+  res.end();
+});
+
+server.listen(3000);
+```
 <h3>Rotas</h3>
 <p>Em routes.js</p>
 
