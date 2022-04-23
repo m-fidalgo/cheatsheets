@@ -60,3 +60,10 @@ for varRef in sequencia:
 <p>O else pode ser adicionado em ambos, definindo um bloco de código executado imediatamente após o fim do loop</p>
 <p>O break encerra o loop (não executa o else)</p>
 <p>O continue pula para a próxima iteração</p>
+
+<h3>Pip</h3>
+<p>Gerenciamento de pacotes</p>
+
+```
+pip install pacote
+```
