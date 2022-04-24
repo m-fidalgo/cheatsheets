@@ -170,7 +170,7 @@ parallel_coordinates(df, 'atributo', cols=['at1','at2', 'at3', 'at4'])
 ```
 <br />
 <h2 align="center" id="preproc">Data Preprocessing</h2>
-<p align="center"><a href="#remove">Remover Atributos</a> | <a href="#missing">Valores Ausentes</a> | <a href="#outliers">Outliers</a></p>
+<p align="center"><a href="#remove">Remover Atributos</a> | <a href="#missing">Valores Ausentes</a> | <a href="#outliers">Outliers</a> | <a href="#dupl">Dados Duplicados</a> | <a href="#agg">Agregação</a> | <a href="#amostragem">Amostragem</a> | <a href="#disc">Discretização</a></p>
 
 <h3 id="remove">Remover Atributos</h3>
 
@@ -200,7 +200,111 @@ for col in df.columns:
 # removendo valores ausentes    
 df = df.dropna()
 ```
+
+```
+import numpy as np
+from sklearn.impute import SimpleImputer
+
+imp = SimpleImputer(missing_values=np.nan, strategy='mean')
+dados_t = imp.fit_transform(dados)
+```
 <h3 id="outliers">Outliers</h3>
+<p>Podem ser removidos ao calcular o z-score dos dados e remover ocorrências em que esse valor é "anormal" (ex: Z > 3 ou Z <= -3)</p>
 
+```
+Z = (df - df.mean()) / df.std()
 
+print(f'Número de objetos antes de descartar outliers: {Z.shape[0]}')
 
+Z2 = Z.loc[((Z > -3).sum(axis=1) == 9) & ((Z <= 3).sum(axis=1) == 9), :]
+
+print(f'Número de objetos depois de descartar outliers: {Z2.shape[0]}')
+```
+<p>Método IQF</p>
+
+```
+def remove_outlier_IQR(data):
+    Q1 = data.quantile(0.25)
+    Q3 = data.quantile(0.75)
+    IQR = Q3-Q1
+    LB = Q1-1.5*IQR
+    UB = Q3+1.5*IQR
+    return data[(data < LB) | (data > UB)]
+    
+df_outlier_removed = remove_outlier_IQR(df['atributo'])
+update_data = df.drop(df_outlier_removed.index)
+```
+<p>Método LOF: vai mostrar qual deve ser removido</p>
+
+```
+from sklearn.neighbors import LocalOutlierFactor
+from numpy import quantile, where, random
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.array([[0,0], [1,0], [1,1], [0,3]])
+plt.scatter(x[:,0], x[:,1])
+plt.xlim([-3, 3])
+plt.ylim([-4, 4])
+plt.show()
+
+lof = LocalOutlierFactor(n_neighbors=2, p=1)
+y_pred = lof.fit_predict(x)
+
+lofs_f = lof.negative_outlier_factor_
+
+lofs_index = where(y_pred==-1)
+values = x[lofs_index]
+
+plt.scatter(x[:,0], x[:,1])
+plt.scatter(values[:,0],values[:,1], color='r')
+plt.xlim([-3, 3])
+plt.ylim([-4, 4])
+plt.show()
+```
+<h3 id="dupl">Dados Duplicados</h3>
+
+```
+dups = df.duplicated()
+print('Linhas duplicadas = %d' % (dups.sum()))
+
+# descartando linhas duplicadas
+df = df.drop_duplicates()
+```
+<h3 id="agg">Agregação</h3>
+<p>Exemplo: quando há dados datetime</p>
+
+```
+monthly = df.groupby(pd.Grouper(freq='M')).sum()
+```
+<h3 id="amostragem">Amostragem</h3>
+
+``` 
+# amostra de tamanho 3, sem reposição
+sample = data.sample(n=3)
+
+# amostra de 1%, sem reposição
+sample = data.sample(frac=0.01, random_state=1)
+
+# com reposição
+sample = data.sample(frac=0.01, replace=True, random_state=1)
+```
+
+```
+from sklearn.utils.random import sample_without_replacement
+
+index = sample_without_replacement(150, 75, random_state=0)
+```
+<h3 id="disc">Discretização</h3>
+<p>Transformar valor contínuo num valor categórico</p>
+<p>Método equal width: n é o número de bins e o value_counts() mostra quantos elementos há em cada um</p>
+
+```
+bins = pd.cut(df['atributo'],n)
+bins.value_counts(sort=False)
+```
+<p>Método equal frequency: n é o número de bins, mas o corte será feito de modo que cada um tenha aproximadamente o mesmo número de elementos</p>
+
+```
+bins = pd.qcut(df['atributo'],n)
+``` 
