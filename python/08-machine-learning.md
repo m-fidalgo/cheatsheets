@@ -77,13 +77,21 @@ sns.heatmap(df.corr(), annot=True, cmap='YlGnBu')
 ```
 <br />
 <h2 align="center" id="vis">Data Visualization</h2>
-<p align="center"><a href="#hist">Histogramas</a> | <a href="#bp">Boxplots</a> | <a href="#sp">Scatter Plots</a> | <a href="#sm">Scatter Plot Matrixs</a></p>
+<p align="center"><a href="#grafs">Exibir Gráficos</a> | <a href="#hist">Histogramas</a> | <a href="#bp">Boxplots</a> | <a href="#sp">Scatter Plots</a> | <a href="#sm">Scatter Plot Matrixs</a></p>
 
+<h3 id="grafs">Exibir Gráficos</h3>
+<p>O método show exibe todas as imagens</p>
+
+```
+import matplotlib.pyplot as plt
+
+# gráfico
+
+plt.show()
+```
 <h3 id="hist">Histogramas</h3>
 
 ```
-import matplotlib
-
 df['nomeAtributo'].hist(bins=10)
 ```
 <h3 id="bp">Boxplots</h3>
