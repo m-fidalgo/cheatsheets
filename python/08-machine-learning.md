@@ -1,5 +1,5 @@
 <h1 align="center">Machine Learning</h1>
-<p align="center"><a href="#expl">Data Exploration</a> | <a href="#vis">Data Visualization</a></p>
+<p align="center"><a href="#expl">Data Exploration</a> | <a href="#vis">Data Visualization</a> | <a href="#preproc">Data Preprocessing</a></p>
 <br />
 
 <h2 align="center" id="expl">Data Exploration</h2>
@@ -168,6 +168,39 @@ parallel_coordinates(df, 'atributo')
 
 parallel_coordinates(df, 'atributo', cols=['at1','at2', 'at3', 'at4'])
 ```
+<br />
+<h2 align="center" id="preproc">Data Preprocessing</h2>
+<p align="center"><a href="#remove">Remover Atributos</a> | <a href="#missing">Valores Ausentes</a> | <a href="#outliers">Outliers</a></p>
+
+<h3 id="remove">Remover Atributos</h3>
+
+```
+df = df.drop(['atributo'],axis=1)
+```
+<p>axis: 0 para linha, 1 para coluna</p>
+
+<h3 id="missing">Valores Ausentes</h3>
+<p>Útil substituir o caracter que indica a ausência de valor por NaN</p>
+
+```
+import numpy as np
+
+df = df.replace('?',np.NaN)
+
+print('Valores ausentes por atributo:')
+for col in df.columns:
+    print('\t%s: %d' % (col, df[col].isna().sum()))
+    
+# substituindo valores ausentes pela mediana
+for col in df.columns:
+    data = df[col]
+    data = data.fillna(data.median())
+    df[col] = data
+    
+# removendo valores ausentes    
+df = df.dropna()
+```
+<h3 id="outliers">Outliers</h3>
 
 
 
