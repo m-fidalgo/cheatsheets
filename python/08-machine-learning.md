@@ -3,7 +3,7 @@
 <br />
 
 <h2 align="center" id="expl">Data Exploration</h2>
-<p align="center"><a href="#load">Carregar Arquivos</a> | <a href="#summary">Summary</a> | <a href="#cov">Covariância e Correlação</a></p>
+<p align="center"><a href="#load">Carregar Arquivos</a> | <a href="#summary">Summary</a> | <a href="#sort">Ordenar</a> | <a href="#cov">Covariância e Correlação</a></p>
 
 <h3 id="load">Carregar arquivos de dados</h3>
 <p><b>read_csv</b> e <b>read_table</b> para ler dados delimitados de um arquivo, sendo respectivamente a vírgula e tab ('\t') o delimitador</p>
@@ -17,6 +17,11 @@ df = pd.read_csv(filepath.csv)
 df = pd.read_excel(filepath.xlsx, 'Sheet')
 df = pd.read_csv(filepath.txt, sep='\t')
 ```
+<h3>Linhas e Colunas</h3>
+
+```
+df.shape
+```
 <h3>Head</h3>
 <p>Mostra as primeiras n linhas do dataframe (padrão: n = 5)</p>
 
@@ -29,22 +34,29 @@ df.head(n)
 df.columns = ['col1', 'col2', ..., 'colN']
 ```
 <h3 id="summary">Informações básicas</h3>
-<p>Atributos numéricos: média, desvio padrão, valores mínimo e máximo</p>
+<p>Atributos numéricos: média, desvio padrão, valores mínimo e máximo, amplitude, variância</p>
 
 ```
 from pandas.api.types import is_numeric_dtype
 
-for col in data.columns:
-    if is_numeric_dtype(data[col]):
-        media = data[col].mean()
-        desvioPadrao = data[col].std()
-        minimo = data[col].min()
-        maximo = data[col].max()
+for col in df.columns:
+    if is_numeric_dtype(df[col]):
+        media = df[col].mean()
+        desvioPadrao = df[col].std()
+        variancia = df[col].var()
+        minimo = df[col].min()
+        maximo = df[col].max()
+        amplitude = maximo - minimo
 ```
 <p>Atributos qualitativos: contar a frequência de cada valor</p>
 
 ```
-data[nomeColQualitativa].value_counts()
+df[nomeColQualitativa].value_counts()
+```
+<p>Ambos: moda</p>
+
+```
+moda = df[col].mode()
 ```
 <h3>Describe</h3>
 <p>Função que retorna as informações básicas de todos os atributos de um dataframe</p>
@@ -52,6 +64,11 @@ data[nomeColQualitativa].value_counts()
 
 ```
 df.describe(include='all')
+```
+<h3 id="sort">Ordenar valores</h3>
+
+```
+df.sort_values(by=['atributo'])
 ```
 <h3 id="cov">Covariância</h3>
 
@@ -93,11 +110,21 @@ plt.show()
 
 ```
 df['nomeAtributo'].hist(bins=10)
+
+# com seaborn
+import seaborn as sns
+
+sns.histplot(df['nomeAtributo'], bins=4, color="red", stat="density",kde=True,element="step")
 ```
 <h3 id="bp">Boxplots</h3>
 
 ```
 df.boxplot()
+
+# com seaborn
+import seaborn as sns
+
+sns.boxplot(data=df, showmeans=True)
 ```
 <h3 id="sp">Scatter Plots</h3>
 
