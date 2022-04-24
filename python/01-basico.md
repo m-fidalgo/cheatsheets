@@ -9,11 +9,19 @@
 <p>Atribuição Múltipla: <b>nome1, nome2 = valor1, valor2</b></p>
 <p>Ver o tipo: <b>type(var)</b></p>
 
-<h3>Criar Virtual Environment</h3>
+<h3>Virtual Environment</h3>
+<p>Criar</p>
 
 ```
 python -m venv .venv
 ```
+<p>Ativar</p>
+
+```
+.\.venv\Scripts\activate
+```
+<p>Desativar: <b>deactivate</b></p>
+
 <h3>Entrada de Dados</h3>
 <p>Enter como quebra, salva como string</p>
 
