@@ -9,7 +9,7 @@
 <p><b>read_csv</b> e <b>read_table</b> para ler dados delimitados de um arquivo, sendo respectivamente a vírgula e tab ('\t') o delimitador</p>
 <p><b>read_excel</b> para ler dados de arquivos excel</p>
 <p><b>read_fwf</b> para ler dados em formatos de tamanho fixo de coluna</p>
-<p></p>
+<p>Pode-se adicionar o parâmetro <b>na_values='?'</b> para indicar que valores ausentes estao representados com ? (serão alterados para NaN)</p>
 
 ```
 import pandas as pd
@@ -234,33 +234,22 @@ def remove_outlier_IQR(data):
 df_outlier_removed = remove_outlier_IQR(df['atributo'])
 update_data = df.drop(df_outlier_removed.index)
 ```
-<p>Método LOF: vai mostrar qual deve ser removido</p>
+<p>Método LOF: vai mostrar qual deve ser removido, não permite colunas categóricas</p>
 
 ```
 from sklearn.neighbors import LocalOutlierFactor
-from numpy import quantile, where, random
-import matplotlib.pyplot as plt
-import numpy as np
+from numpy import where
 
-x = np.array([[0,0], [1,0], [1,1], [0,3]])
-plt.scatter(x[:,0], x[:,1])
-plt.xlim([-3, 3])
-plt.ylim([-4, 4])
-plt.show()
+lof = LocalOutlierFactor(n_neighbors=3, p=2)
 
-lof = LocalOutlierFactor(n_neighbors=2, p=1)
-y_pred = lof.fit_predict(x)
+# y_pred => um para cada ocorrência, os -1 são os outliers
+y_pred = lof.fit_predict(data_encoded)
+indexes = np.where(y_pred==-1)[0]
 
-lofs_f = lof.negative_outlier_factor_
+print(f"Número de outliers: {indexes.shape[0]}")
+print(f"{indexes}")
 
-lofs_index = where(y_pred==-1)
-values = x[lofs_index]
-
-plt.scatter(x[:,0], x[:,1])
-plt.scatter(values[:,0],values[:,1], color='r')
-plt.xlim([-3, 3])
-plt.ylim([-4, 4])
-plt.show()
+data_encoded.drop(index=indexes, inplace=True)
 ```
 <h3 id="dupl">Dados Duplicados</h3>
 
@@ -308,3 +297,14 @@ bins.value_counts(sort=False)
 ```
 bins = pd.qcut(df['atributo'],n)
 ``` 
+<h3 id="encoding">Encoding</h3>
+<p>Transformar atributos categóricos em numéricos</p>
+<p>One Hot Encoding</p>
+
+```
+import category_encoders as ce
+
+categoricalColumns = ['A1', 'A9', 'A10', 'A12']
+encoder = ce.OneHotEncoder(cols=categoricalColumns, handle_unknown='return_nan',return_df=True,use_cat_names=True)
+data_encoded = encoder.fit_transform(df)
+```
