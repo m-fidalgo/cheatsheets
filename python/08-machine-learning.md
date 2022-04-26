@@ -170,7 +170,7 @@ parallel_coordinates(df, 'atributo', cols=['at1','at2', 'at3', 'at4'])
 ```
 <br />
 <h2 align="center" id="preproc">Data Preprocessing</h2>
-<p align="center"><a href="#remove">Remover Atributos</a> | <a href="#missing">Valores Ausentes</a> | <a href="#outliers">Outliers</a> | <a href="#dupl">Dados Duplicados</a> | <a href="#agg">Agregação</a> | <a href="#amostragem">Amostragem</a> | <a href="#disc">Discretização</a></p>
+<p align="center"><a href="#remove">Remover Atributos</a> | <a href="#missing">Valores Ausentes</a> | <a href="#outliers">Outliers</a> | <a href="#dupl">Dados Duplicados</a> | <a href="#agg">Agregação</a> | <a href="#amostragem">Amostragem</a> | <a href="#disc">Discretização</a> | <a href="#encoding">Encoding</a> | <a href="#pca">PCA</a></p>
 
 <h3 id="remove">Remover Atributos</h3>
 
@@ -307,4 +307,35 @@ import category_encoders as ce
 categoricalColumns = ['A1', 'A9', 'A10', 'A12']
 encoder = ce.OneHotEncoder(cols=categoricalColumns, handle_unknown='return_nan',return_df=True,use_cat_names=True)
 data_encoded = encoder.fit_transform(df)
+```
+<h3 id="pca">PCA</h3>
+<p>Diminuir o número de atributos</p>
+
+```
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+df_padronizado = scaler.fit_transform(df)
+
+pca = PCA(n_components=0.9) #quanto de variância se quer explicar
+projected = pca.fit_transform(df_padronizado)
+
+print("Componentes Principais")
+print(pca.components_)
+
+print("Variâncias")
+print(pca.explained_variance_ratio_)
+
+component_names = ['component {}'.format(i) for i in range(len(pca.components_))]
+
+components_df = pd.DataFrame(data=pca.components_,index=component_names,columns=df.columns)
+components_df.head()
+
+print(df.loc[[0]])
+print(df_padronizado[[0]])
+print(projected[[0]])
+
+instancias_classes = data["classe"]
+sns.scatterplot(x=projected[:, 0], y=projected[:, 1], hue=instancias_classes) # dim1-pca, dim2-pca, classes
 ```
