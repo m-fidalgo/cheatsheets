@@ -292,11 +292,29 @@ index = sample_without_replacement(150, 75, random_state=0)
 bins = pd.cut(df['atributo'],n)
 bins.value_counts(sort=False)
 ```
+
+```
+from sklearn.preprocessing import KBinsDiscretizer
+
+disc = KBinsDiscretizer(n_bins=3, encode='ordinal', strategy='uniform')
+intervalos = disc.fit_transform(data_np)
+```
 <p>Método equal frequency: n é o número de bins, mas o corte será feito de modo que cada um tenha aproximadamente o mesmo número de elementos</p>
 
 ```
 bins = pd.qcut(df['atributo'],n)
 ``` 
+
+```
+disc = KBinsDiscretizer(n_bins=3, encode='ordinal', strategy='quantile')
+intervalos = disc.fit_transform(data_np)
+```
+<p>Método k-means</p>
+
+```
+disc = KBinsDiscretizer(n_bins=3, encode='ordinal', strategy='kmeans')
+intervalos = disc.fit_transform(data_np)
+```
 <h3 id="encoding">Encoding</h3>
 <p>Transformar atributos categóricos em numéricos</p>
 <p>One Hot Encoding</p>
