@@ -3,7 +3,7 @@
 <br />
 
 <h2 align="center" id="gerar">Geração de Linhas e Circunferências</h2>
-<p align="center"><a href="#tela">Tela</a> | <a href="#primitiva-linha">Classe para Primitiva de Linha</a></p>
+<p align="center"><a href="#tela">Tela</a> | <a href="#primitiva-linha">Classe para Primitiva de Linha</a> | <a href="#linha">Gerar Linha</a> | <a href="#primitiva-circ">Classe para Primitiva de Circunferência</a> | <a href="#circ">Gerar Circunferência</a> | <a href="#ex-desenho">Exemplo de Desenho</a></p>
 
 
 <h3 id="tela">Tela</h3>
@@ -209,4 +209,130 @@ def bresenham(self, screen):
       # Desenha o próximo ponto
       screen.setPixel(x, y, self.color)
 ```
+<h3 id="linha">Gerar Linha</h3>
 
+```
+def generateLine():
+  # Inicialização do PyGame
+  pygame.init()   
+
+  # Criação do Objeto de Tela
+  screen = Screen("Tela", pygame.Color(255, 255, 255, 255), 700, 700)
+
+  # Definição de uma linha de coordenadas (10,10) a (100,100) com cor preta
+  line1 = Line(10, 10, 100, 100, pygame.Color(0, 0, 0, 255))
+
+  # Execução do Programa
+  screen.run(line1)
+```
+<h3 id="primitiva-circ">Classe para Primitiva de Circunferência</h3>
+<p>Tudo dentro de <b>class Circle(object):</b></p>
+<p>Construtor</p>
+
+```
+  def __init__(self, xc, yc, raio, color):
+    self.xc = xc       # coordenada x do centro
+    self.yc = yc       # coordenada y do centro
+    self.raio = raio   # raio da circunferência
+    self.color = color # cor do objeto
+```
+<p>Algoritmo de Bresenham - Renderizar a circunferência</p>
+
+```
+  def draw(self, screen):
+    # Definição e Inicialização de Variáveis locais      
+    # Coniderando a circunferência ao redor da origem, mas renderizada transladada
+    x = 0                # x inicial
+    y = self.raio        # y inicial
+    d = 1 - self.raio    # d de teste inicial
+
+    # Desenha os pontos inicias de cada quadrante
+    self.drawCirclePoints(x, y, screen)
+    
+    # Gera os novos pontos e os renderiza
+    while x < y:
+      if d < 0:   # Direção E
+        d = d + 2 * x + 3
+      else:       # Direção SE
+        d = d + 2 * (x - y) + 5
+        y = y - 1
+      
+      x = x + 1
+
+      self.drawCirclePoints(x, y, screen)
+          
+ def drawCirclePoints(self, x, y, screen):
+    xCentro = self.xc
+    yCentro = self.yc
+    screen.setPixel(xCentro + x, yCentro + y, self.color)
+    screen.setPixel(xCentro + y, yCentro + x, self.color)
+    screen.setPixel(xCentro + y, yCentro - x, self.color)
+    screen.setPixel(xCentro + x, yCentro - y, self.color)
+    screen.setPixel(xCentro - x, yCentro - y, self.color)
+    screen.setPixel(xCentro - y, yCentro - x, self.color)
+    screen.setPixel(xCentro - y, yCentro + x, self.color)
+    screen.setPixel(xCentro - x, yCentro + y, self.color)
+```
+<h3 id="circ">Gerar Circunferência</h3>
+
+```
+def generateCircle():
+  # Inicialização do PyGame
+  pygame.init()   
+
+  # Criação do Objeto de Tela
+  screen = Screen("Tela", pygame.Color(255, 255, 255, 255), 700, 700)
+
+  # executa o desenho
+  circ = Circle(350, 450, 150, pygame.Color(0, 0, 255, 255));
+
+  screen.run(circ);
+```
+<h3 id="ex-desenho">Exemplo de Desenho</h3>
+
+```
+class Drawing(object):
+  # Construtor da Classe
+  def __init__(self):
+      self.primitivas = [] # Define uma lista de primitivas para representar um desenho
+  
+  def draw(self, screen):
+    # Telhado
+    l1 = Line(350, 50, 50, 250, pygame.Color(255, 0, 0, 255))
+    l2 = Line(50, 250, 650, 250, pygame.Color(255, 0, 0, 255))
+    l3 = Line(650, 250, 350, 50, pygame.Color(255, 0, 0, 255))
+    
+    # Parede
+    l4 = Line(50, 250, 50, 650, pygame.Color(0, 200, 100, 255))
+    l5 = Line(50, 650, 650, 650, pygame.Color(0, 200, 100, 255))
+    l6 = Line(650, 650, 650, 250, pygame.Color(0, 200, 100, 255))
+    
+    circ = Circle(350, 450, 150, pygame.Color(0, 0, 255, 255));
+    
+    # Insere primitivas na lista
+    self.primitivas.append(l1);
+    self.primitivas.append(l2);
+    self.primitivas.append(l3);
+    self.primitivas.append(l4);
+    self.primitivas.append(l5);
+    self.primitivas.append(l6);
+    self.primitivas.append(circ);
+    
+    # Desenha cada primitiva que está na lista
+    for item in self.primitivas:
+      item.draw(screen);
+
+def generateDrawing():
+  # Inicialização do PyGame
+  pygame.init()   
+
+  # Criação do Objeto de Tela
+  screen = Screen("Tela", pygame.Color(255, 255, 255, 255), 700, 700)
+
+  # executa o desenho
+  pic = Drawing();
+
+  screen.run(pic);
+
+generateDrawing()
+```
