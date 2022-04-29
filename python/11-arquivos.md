@@ -32,3 +32,15 @@ file.writelines(string)
 ```
 file.close()
 ```
+<h3>Uso do With</h3>
+
+```
+try:
+  with open(nome, 'r') as file:
+    linhas = file.readlines()
+    for l in linhas:
+      dados = l.split('-')
+      print(dados[0], dados[1])
+except FileNotFoundError:
+  print('Não encontrado')
+```
