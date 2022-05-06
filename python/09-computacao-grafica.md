@@ -1,5 +1,5 @@
 <h1 align="center">Computação Gráfica</h1>
-<p align="center"><a href="#gerar">Geração de Linhas e Circunferências</a></p>
+<p align="center"><a href="#gerar">Geração de Linhas e Circunferências</a> | <a href="#preen">Preenchimento de Polígonos</a></p>
 <br />
 
 <h2 align="center" id="gerar">Geração de Linhas e Circunferências</h2>
@@ -335,4 +335,251 @@ def generateDrawing():
   screen.run(pic);
 
 generateDrawing()
+```
+<br />
+<h2 align="center" id="preen">Prenchimento de Polígonos</h2>
+<p align="center"><a href="#ponto">Classe para Primitiva de Ponto</a> | <a href="#arestas">Classe para Informação de Arestas</a> | <a href="#poligono">Classe da Primitiva Polígono</a></p>
+
+<h3 id="ponto">Classe para Primitiva de Ponto</h3>
+<p>Dentro de <b>class Point2D(Object)</b></p>
+<p>Construtor</p>
+
+```
+def __init__(self, x, y, color):
+  self.x = x
+  self.y = y
+  self.color = color
+```
+<p>Método draw: renderiza o ponto</p>
+
+```
+def draw(self, screen):
+  screen.setPixel(self.x, self.y, self.color)
+```
+<p>Getters e Setters</p>
+
+```
+@property
+def x(self):
+  return self._x
+    
+@x.setter
+def x(self, x):
+  self._x = x
+    
+@property
+def y(self):
+  return self._y
+    
+@y.setter
+def y(self, y):
+  self._y = y
+```
+<p>Para criar um ponto (exemplo)</p>
+
+```
+point = Point2D(100, 500, pygame.Color(255, 255, 0, 255))
+screen.run(point)
+```
+
+<h3 id="arestas">Classe para Informação de Arestas</h3>
+<p>Tudo dentro de <b>class EdgeInfo(object)</b></p>
+<p>Construtor</p>
+
+```
+  def __init__(self, initialPoint, finalPoint):
+    if initialPoint.y <= finalPoint.y:
+      self.yMax = finalPoint.y
+      self.x = initialPoint.x  # x corrente, inicialmente x in Ymin
+      self.yMin = initialPoint.y
+    else:
+      self.yMax = initialPoint.y
+      self.x = finalPoint.x     # x corrente, inicialmente x in Ymin
+      self.yMin = finalPoint.y
+            
+    self.inverseOfAngularCoefficient = (finalPoint.x - initialPoint.x) / (finalPoint.y - initialPoint.y)
+```
+<p>Getters e Setters de Y</p>
+
+```
+  @property
+  def yMax(self):
+    return self._yMax
+    
+  @yMax.setter
+  def yMax(self, yMax):
+    self._yMax = yMax
+  
+  @property
+  def yMin(self):
+    return self._yMin
+  
+  @yMin.setter
+  def yMin(self, yMin):
+    self._yMin = yMin
+```
+<p>Getter e Setter de X</p>
+
+```
+  @property
+  def x(self):
+    return self._x
+  
+  @x.setter
+  def x(self, x):
+    self._x = x
+```
+<p>Método para atualizar X</p>
+
+```
+  def updateX(self):
+    self.x = self.x + self.inverseOfAngularCoefficient
+```
+
+<h3 id="poligono">Classe da Primitiva Polígono</h3>
+<p>Tudo dentro de <b>class Polygon(object)</b></p>
+<p>Construtor</p>
+
+```
+  def __init__(self, showEdges, edgeColor, isFilled, fillColor):
+    self.listOfPoints = []
+    self.showEdges = showEdges
+    self.edgeColor = edgeColor
+    self.isFilled = isFilled
+    self.fillColor = fillColor
+```
+<p>Método que adiciona vértices na lista</p>
+
+```
+  def addVertex(self, point):
+    self.listOfPoints.append(point)
+```
+<p>Método draw: renderiza o polígono</p>
+
+```
+  def draw(self, screen):
+    if len(self.listOfPoints) < 3:
+      print("Não forma polígono. Menos de 3 vértices.")
+      return
+        
+    # Preenche o polígono
+    if self.isFilled:
+      self.scanline(screen)
+    
+    if self.showEdges:
+      for i in range(0,len(self.listOfPoints) - 1):     
+        pI = self.listOfPoints[i]
+        pF = self.listOfPoints[i+1]
+        line = Line(pI.x, pI.y, pF.x, pF.y, self.edgeColor)
+        line.draw(screen)
+      
+      pI = self.listOfPoints[-1]
+      pF = self.listOfPoints[0]
+      line = Line(pI.x, pI.y, pF.x, pF.y, self.edgeColor)
+      line.draw(screen)
+      
+      for i in range(0,len(self.listOfPoints)):               
+        self.listOfPoints[i].draw(screen)
+```
+<p>Método scanline: preenche o polígono</p>
+
+```
+  def scanline(self, screen): 
+    yMax = self.listOfPoints[0].y
+    for item in self.listOfPoints:
+      if item.y > yMax:
+        yMax = item.y
+            
+    y = yMax # armazena o y corrente, começando pelo valor mínimo
+    
+    #### Cria tabela de arestas ####
+    edgeTable = []
+    for i in range (0, yMax+1):
+      edgeTable.append([])
+        
+    for i in range(0,len(self.listOfPoints) - 1):     
+    #for i in range(0,1):     
+      # exclui arestas horizontais
+      if self.listOfPoints[i].y - self.listOfPoints[i+1].y != 0:
+        edge = EdgeInfo(self.listOfPoints[i], self.listOfPoints[i+1])
+        yMin = edge.yMin
+        if yMin < y:
+          y = yMin
+
+        edgeTable[yMin].append(edge)       
+    
+    # Fecha o polígono
+    # exclui arestas horizontais
+    if self.listOfPoints[-1].y - self.listOfPoints[0].y != 0:
+      edge = EdgeInfo(self.listOfPoints[-1], self.listOfPoints[0])
+      yMin = edge.yMin
+      if yMin < y:
+        y = yMin
+
+      edgeTable[yMin].append(edge)
+
+    ####
+    activeET = []
+    
+    ### Laço principal
+    while y <= yMax:
+      #print(y)
+              
+      # Move a lista y na ET para AET (ymin = y), mantendo a AET ordenada em x
+      activeET.extend(edgeTable[y])
+      edgeTable[y] = []
+      activeET.sort(key = sortByX)
+      
+      # Desenhe os pixels do bloco na linha de varredura y, 
+      # usando os pares de coordenadas x da AET (cada dois nós definem um bloco)
+      for i in range(0, len(activeET) - 1, 2):
+        for x in range(int(activeET[i].x), int(activeET[i + 1].x + 1)):
+          screen.setPixel(x, y, self.fillColor)
+      
+      # Atualiza o valor de y para a próxima linha de varredura
+      y = y + 1
+      
+      # Remova as arestas que possuem ymax = y da AET
+      delL = []
+      for item in activeET:
+        if item.yMax <= y:
+          delL.append(item)
+      
+      for item in delL:
+        activeET.remove(item)
+      
+      delL.clear()
+      
+      # Para cada aresta na AET, atualize x = x + 1/m
+      for item in activeET:
+        item.updateX()
+```
+<p>Método empty</p>
+
+```
+  def empty(self, ET):
+    for item in ET:
+      if item:
+        return False
+    
+    return True
+```
+<p>Método SortByX: método auxiliar que não está dentro da classe do polígono. É usada para ordenar a AET por valores de x</p>
+
+```
+  def sortByX(item):
+    return item.x
+```
+<p>Exemplo: criando polígono</p>
+
+```
+  pol = Polygon(True, pygame.Color(255, 0, 0, 255), True, pygame.Color(255, 255, 0, 255))
+  pol.addVertex(Point2D(20, 30, pygame.Color(0, 0, 0, 255)))
+  pol.addVertex(Point2D(70, 10, pygame.Color(0, 0, 0, 255)))
+  pol.addVertex(Point2D(130, 50, pygame.Color(0, 0, 0, 255)))
+  pol.addVertex(Point2D(130, 100, pygame.Color(0, 0, 0, 255)))
+  pol.addVertex(Point2D(70, 70, pygame.Color(0, 0, 0, 255)))
+  pol.addVertex(Point2D(20, 90, pygame.Color(0, 0, 0, 255)))
+
+  screen.run(pol)
 ```
