@@ -12,6 +12,7 @@
 
 <h3>Assert</h3>
 <p>Gerar exceção caso uma condição seja falsa: assert condição</p>
+
 ```
 try:
   código
