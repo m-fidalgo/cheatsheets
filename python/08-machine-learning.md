@@ -359,7 +359,7 @@ sns.scatterplot(x=projected[:, 0], y=projected[:, 1], hue=instancias_classes) # 
 ```
 <br />
 <h2 align="center" id="class">Classification</h2>
-<p align="center"><a href="#decision-tree">Decision Tree</a> | <a href="#knn">kNN</a> | <a href="#naive-bayes">Naive Bayes</a> | <a href="#svm">Support Vector Machine (SVM)</a> | <a href="#ann">Artificial Neural Networks</a> | <a href="#ensemble">Ensemble</a></p>
+<p align="center"><a href="#decision-tree">Decision Tree</a> | <a href="#knn">kNN</a> | <a href="#naive-bayes">Naive Bayes</a> | <a href="#svm">Support Vector Machine (SVM)</a> | <a href="#ann">Artificial Neural Networks</a> | <a href="#ensemble">Ensemble</a> | <a href="#results">Comparar Resultados</a></p>
 
 <h3>Observação</h3>
 <p>X é a matriz dos dados e y o vetor da variável target</p>
@@ -484,4 +484,84 @@ print(scores)
 results["knn"] = np.mean(scores)
 
 clf_knn.predict([[2., 2., 3., 3.]])
+```
+<h3 id="naive-bayes">Naive Bayes</h3>
+
+```
+import numpy as np
+from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import cross_val_score
+
+clf_nb = GaussianNB()
+clf_nb.fit(X, y)
+
+scores = cross_val_score(clf_nb, X, y, cv=3, scoring='f1_weighted')
+print(scores)
+
+results["nb"] = np.mean(scores)
+clf_nb.predict([[2., 2., 3., 3.]])
+```
+<h3 id="svm">Support Vector Machine (SVM)</h3>
+
+```
+import numpy as np
+from sklearn.svm import SVC
+from sklearn.model_selection import cross_val_score
+
+clf_svm = SVC()
+clf_svm.fit(X, y)
+
+scores = cross_val_score(clf_svm, X, y, cv=3, scoring='f1_weighted')
+print(scores)
+
+results["svm"] = np.mean(scores)
+clf_svm.predict([[2., 2., 3., 3.]])
+
+# get support vectors
+print(clf_svm.support_vectors_)
+
+# get indices of support vectors
+print(clf_svm.support_)
+
+# get number of support vectors for each class
+print(clf_svm.n_support_)
+```
+<h3 id="ann">Artificial Neural Networks</h3>
+
+```
+import numpy as np
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import cross_val_score
+
+#3 camadas intermediárias, uma com 50, a outra com 30 e a outra com 20
+clf_mlp = MLPClassifier(hidden_layer_sizes=(50, 30, 20), max_iter=500, random_state=0)
+clf_mlp.fit(X, y)
+
+scores = cross_val_score(clf_mlp, X, y, cv=3, scoring='f1_weighted')
+print(scores)
+
+results["ann"] = np.mean(scores)
+clf_mlp.predict([[2., 2., 3., 3.]])
+```
+<h3 id="ensemble">Ensemble</h3>
+
+```
+import numpy as np
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.model_selection import cross_val_score
+
+clf_AdaB = AdaBoostClassifier()
+clf_AdaB.fit(X, y)
+
+scores = cross_val_score(clf_AdaB, X, y, cv=3, scoring='f1_weighted')
+print(scores)
+
+results["AdaB"] = np.mean(scores)
+clf_AdaB.predict([[2., 2., 3., 3.]])
+```
+<h3 id="results">Comparar Resultados</h3>
+
+```
+for key, value in results.items():
+    print(key, value)
 ```
