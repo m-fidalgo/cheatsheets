@@ -43,6 +43,14 @@ defined? x
   <li>Strings: entre '' ou ""</li>
   <li>Hashes: modelo chave-valor.  Exemplo: <b>colors = { "red" => 0xf00, "green" => 0x0f0, "blue" => 0x00f }</b></li>
   <li>Arrays: podem conter qualquer tipo de dado. Exemplo: arr = [1, "string", 0.1, var, ]<b></b></li>
-  <li>Symbols: como strings, mas ocupam menos memória (melhor performance). Exemplo smbl = {:chave => "valor", :chave1 => "valor1"}</li>
+  <li>Symbols: como strings, mas ocupam menos memória (melhor performance: são imutáveis). Exemplo smbl = {:chave => "valor", :chave1 => "valor1"}</li>
 </ul>
+<p>Verificar o tipo de uma variável a</p>
 
+```
+a.kind_of? Integer
+# true ou false
+
+a.is_a? Integer
+# true ou false
+```
