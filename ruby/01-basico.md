@@ -37,14 +37,7 @@ comment
 defined? x
 ```
 <h3>Tipos de Dados</h3>
-<ul>
-  <li>Boolean: true e false. nil é considerado false, demais valores são true</li>
-  <li>Numbers: tanto ints quanto floats</li>
-  <li>Strings: entre '' ou ""</li>
-  <li>Hashes: modelo chave-valor.  Exemplo: <b>colors = { "red" => 0xf00, "green" => 0x0f0, "blue" => 0x00f }</b></li>
-  <li>Arrays: podem conter qualquer tipo de dado. Exemplo: arr = [1, "string", 0.1, var, ]<b></b></li>
-  <li>Symbols: como strings, mas ocupam menos memória (melhor performance: são imutáveis). Exemplo smbl = {:chave => "valor", :chave1 => "valor1"}</li>
-</ul>
+<p>Boolean, Numbers, String, Hashes, Arrays, Symbols</p>
 <p>Verificar o tipo de uma variável a</p>
 
 ```
