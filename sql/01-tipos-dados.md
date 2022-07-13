@@ -1,5 +1,14 @@
 <h1 align="center">Tipos de Dados</h1>
 
+<h3>Geral</h3>
+<li>Int, Int unsigned</li>
+<li>Dec(x,y), Number(x,y)</li>
+<li>Float, Real</li>
+<li>Char(n), Varchar(n): tamanho n e tamanho até n</li>
+<li>Blob, Text, Longtext</li>
+<li>Enum(val1, ..., valN)</li>
+<li>Date, Time, Datetime</li>
+
 <h3>MySQL</h3>
 <li>Bit/Bool</li>
 <li>TinyInt, SmallInt, MediumInt, Integer/Int, BigInt</li>
